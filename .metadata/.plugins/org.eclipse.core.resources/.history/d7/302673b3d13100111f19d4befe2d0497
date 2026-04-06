@@ -1,0 +1,146 @@
+package com.sunbeam.jdbc;
+
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Scanner;
+
+public class Jdbc_assignment01 {
+
+    public static final String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
+    public static final String DB_URL = "jdbc:mysql://localhost:3306/Adjava";
+    public static final String DB_USER = "adjava";
+    public static final String DB_PASSWD = "sunbeam";
+
+    static {
+        try {
+            Class.forName(DB_DRIVER);
+        } catch (ClassNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            System.exit(1);
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int choice;
+
+        while ((choice = Menu.MainMenu(sc)) != 0) {
+            switch (choice) {
+
+                case 1: {
+                    try {
+                        Connection con = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWD);
+
+                        Statement stmt = con.createStatement();
+
+                        String sql = "SELECT * FROM users";
+
+                        ResultSet rs = stmt.executeQuery(sql);
+                        while (rs.next()) {
+                            int id = rs.getInt("id");
+                            String Name = rs.getString("Name");
+                            String Email = rs.getString("Email");
+                            String Passwd = rs.getString("Passwd");
+                            Date Birth = rs.getDate("Birth");
+                            String Role = rs.getString("Role");
+                            String Addr = rs.getString("Addr");
+                            System.out.printf("%d | %s | %s  | %s | %s | %s\n", id, Name, Email, Passwd, Birth, Role, Addr);
+                        }
+                    } catch (SQLException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                }
+                break;
+                case 2: {
+
+                    System.out.println("Enter Name: ");
+                    String Name = sc.next();
+                    System.out.println("Enter Email: ");
+                    String Email = sc.next();
+                    System.out.println("Enter Passwd: ");
+                    String Passwd = sc.next();
+                    System.out.println("Enter BirthDate(yyyy-mm-dd): ");
+                    String Birth = sc.next();
+                    System.out.println("Enter Role: ");
+                    String Role = sc.next();
+                    System.out.println("Enter Addr: ");
+                    String Addr = sc.next();
+
+                    try {
+                        Connection con = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWD);
+                        try (Statement stmt = con.createStatement()) {
+                            String sql = String.format("INSERT INTO users(Name,Email,Passwd,Birth,Role,Addr) VALUES('%s','%s','%s','%s','%s','%s')", Name, Email, Passwd, Birth, Role, Addr);
+                            System.out.println("SQL: " + sql);
+                            int count = stmt.executeUpdate(sql);
+                            System.out.println("Rows Inserted: " + count);
+                        }
+
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+                break;
+
+                case 3: {
+                    System.out.println("ID: ");
+                    int id = sc.nextInt();
+                    System.out.println("Reset Passwd: ");
+                    String Passwd = sc.next();
+                    try {
+                        Connection con = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWD);
+                        String sql = String.format("UPDATE users SET Passwd = ? WHERE id = ?");
+                        try (PreparedStatement stmt = con.prepareCall(sql)) {
+
+                            stmt.setString(1, Passwd);
+                            stmt.setInt(2, id);
+                            int rows_Affected = stmt.executeUpdate();
+                            if (rows_Affected > 0) {
+                                System.out.println("Passwoed Updated!");
+                            } else {
+                                System.out.println("Invalid ID!");
+                            }
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+                break;
+
+                case 4:
+
+                    System.out.print("Enter Id: ");
+                    int id = sc.nextInt();
+
+                    try (Connection con = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWD)) {
+
+                        String sql = String.format("DELETE FROM users WHERE id = ?");
+              
+                        try (PreparedStatement stmt = con.prepareStatement(sql)) {
+                            stmt.setInt(1, id);
+
+                            int rows_Affected = stmt.executeUpdate();
+
+                            if (rows_Affected > 0) {
+                                System.out.println("Deleted Successfully!");
+                            } else {
+                                System.out.println("Invalid ID!");
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
+
+            }
+        }
+    }
+
+}

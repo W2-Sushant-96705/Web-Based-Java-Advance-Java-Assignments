@@ -1,0 +1,45 @@
+package com.sunbeam.jdbc;
+
+import java.sql.Connection;
+import java.util.Scanner;
+
+public class Jdbc_assignment01 {
+	public static final String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
+	public static final String DB_URL = "jdbc:mysql://localhost:3306/Adjav";
+	public static final String DB_USER = "adjava";
+	public static final String DB_PASSWD = "sunbeam";
+	
+		static {
+			try {
+				Class.forName(DB_DRIVER);
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				System.exit(1);
+			}
+		}
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		
+		int choice;
+		System.out.println("\n1.Display all Users.");
+		System.out.println("2.Insert new User.");
+		System.out.println("3.Change Password for the given User Id.");
+		System.out.println("4.Delete User with given Id.");
+		System.out.println("0.Exit");
+
+		choice = sc.nextInt();
+		
+		while((choice) != 0) {
+		switch(choice) {
+		 
+		case 1:{
+//			Connection con = DriveManager.getConnection(DB_URL,DB_USER,USER_PASSWD);
+			System.out.println("Hello");
+			
+			break;}
+		}
+		}
+	}
+
+}

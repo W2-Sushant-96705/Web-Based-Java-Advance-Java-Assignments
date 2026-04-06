@@ -1,0 +1,6 @@
+INDEX VERSION 1.134+D:\Sunbeam\Web-Based Java\Web-Based-Java Assignments\Assignment_1\.metadata\.plugins\org.eclipse.jdt.core
+1865797976.index
+960958154.index
+3548553819.index
+2457414507.index
+973786303.index
