@@ -1,0 +1,27 @@
+package com.sunbeam.daos;
+
+import java.sql.Date;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+@Entity
+@Table(name="users")
+public class User {
+	@Id
+	private int id;
+	private String name;
+	private String passwd;
+	private String email;
+	private String addr;
+	private String role;
+	private Date birth;
+	
+}
