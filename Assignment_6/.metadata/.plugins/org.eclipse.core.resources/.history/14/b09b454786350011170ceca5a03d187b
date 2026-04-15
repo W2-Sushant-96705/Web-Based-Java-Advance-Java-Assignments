@@ -1,0 +1,13 @@
+package com.sunbeam.entities;
+
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+
+public class Book {
+	private String name;
+	private String author;
+	private String subject;
+	private double price;
+}

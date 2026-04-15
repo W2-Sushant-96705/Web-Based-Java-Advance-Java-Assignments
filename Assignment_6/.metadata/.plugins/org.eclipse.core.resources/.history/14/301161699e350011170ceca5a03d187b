@@ -1,0 +1,10 @@
+package com.sunbeam.daos;
+
+import java.util.List;
+
+import com.sunbeam.entities.Book;
+import com.sunbeam.entities.User;
+
+public class BookDao {
+ List<Book> findAll();
+}
